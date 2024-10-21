@@ -1,6 +1,6 @@
 # product-service
 
-##ERD
+## ERD
 
 ```mermaid
  erDiagram
