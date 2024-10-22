@@ -1,7 +1,6 @@
 package com.fawry.product_service.resource;
 
 
-import com.fawry.product_service.entity.Product;
 import com.fawry.product_service.model.ProductModel;
 import com.fawry.product_service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,17 @@ public class ProductResource {
 
     @GetMapping
     public List<ProductModel> getProducts() {
-    return productService.getProducts();
+        return productService.getProducts();
+    }
+
+    @GetMapping("/{id}")
+    public ProductModel getProductById(@PathVariable long id) {
+        return productService.getProductById(id);
     }
 
     @PostMapping
     public void addProduct(@RequestBody ProductModel productModel) {
-       productService.addProduct(productModel);
+        productService.addProduct(productModel);
     }
 
     @PutMapping
@@ -33,7 +37,7 @@ public class ProductResource {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable long id){
+    public void deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
     }
 }

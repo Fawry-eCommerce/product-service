@@ -1,7 +1,6 @@
 package com.fawry.product_service.resource;
 
 
-import com.fawry.product_service.entity.Category;
 import com.fawry.product_service.model.CategoryModel;
 import com.fawry.product_service.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

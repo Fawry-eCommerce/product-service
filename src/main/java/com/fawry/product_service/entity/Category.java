@@ -1,12 +1,14 @@
 package com.fawry.product_service.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "CATEGORY")
 public class Category {
 

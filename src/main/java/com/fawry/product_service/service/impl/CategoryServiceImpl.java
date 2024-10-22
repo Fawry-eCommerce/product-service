@@ -1,6 +1,7 @@
 package com.fawry.product_service.service.impl;
 
 import com.fawry.product_service.entity.Category;
+import com.fawry.product_service.mapper.CategoryMapper;
 import com.fawry.product_service.model.CategoryModel;
 import com.fawry.product_service.repository.CategoryRepository;
 import com.fawry.product_service.service.CategoryService;
@@ -9,32 +10,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    CategoryMapper categoryMapper;
 
     @Override
     public List<CategoryModel> getCategories() {
 
         List<Category> categories = categoryRepository.findAll();
 
-        return categories
-                .stream()
-                .map(this::mapEntityToModel)
-                .collect(Collectors.toList());
+        return categoryMapper.mapEntitiesToModels(categories);
     }
 
     @Override
     public void addCategory(CategoryModel categoryModel) {
-
-        Category category = mapModelToEntity(categoryModel);
+        Category category = categoryMapper.mapModelToEntity(categoryModel);
         categoryRepository.save(category);
     }
-
 
     @Override
     @Transactional
@@ -42,12 +39,9 @@ public class CategoryServiceImpl implements CategoryService {
         Category savedCategory = categoryRepository.findById(categoryModel.getId())
                 .orElseThrow(() -> new RuntimeException("Category Not Exist"));
 
-        savedCategory.setCode(categoryModel.getCode());
-        savedCategory.setName(categoryModel.getName());
-
-        return mapEntityToModel(savedCategory);
+        categoryMapper.updateModelToSavedEntity(categoryModel, savedCategory);
+        return categoryMapper.mapEntityToModel(savedCategory);
     }
-
 
     @Override
     public void deleteCategory(long id) {
@@ -56,19 +50,4 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    private CategoryModel mapEntityToModel(Category category) {
-        CategoryModel categoryModel = new CategoryModel();
-        categoryModel.setId(category.getId());
-        categoryModel.setName(category.getName());
-        categoryModel.setCode(category.getCode());
-
-        return categoryModel;
-    }
-
-    private Category mapModelToEntity(CategoryModel categoryModel) {
-        Category category = new Category();
-        category.setName(categoryModel.getName());
-        category.setCode(categoryModel.getCode());
-        return category;
-    }
 }
