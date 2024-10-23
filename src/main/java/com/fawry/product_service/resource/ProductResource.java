@@ -4,6 +4,8 @@ package com.fawry.product_service.resource;
 import com.fawry.product_service.model.ProductModel;
 import com.fawry.product_service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,11 @@ public class ProductResource {
     @GetMapping
     public List<ProductModel> getProducts() {
         return productService.getProducts();
+    }
+
+    @GetMapping("/details")
+    public Page<ProductModel> getProductsDetailsByIds(@RequestParam List<Long> ids, Pageable pageable) {
+        return productService.getProductsByIds(ids, pageable);
     }
 
     @GetMapping("/{id}")

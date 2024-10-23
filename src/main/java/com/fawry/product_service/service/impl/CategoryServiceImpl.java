@@ -1,6 +1,7 @@
 package com.fawry.product_service.service.impl;
 
 import com.fawry.product_service.entity.Category;
+import com.fawry.product_service.exception.CategoryNotFoundException;
 import com.fawry.product_service.mapper.CategoryMapper;
 import com.fawry.product_service.model.CategoryModel;
 import com.fawry.product_service.repository.CategoryRepository;
@@ -37,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryModel updateCategory(CategoryModel categoryModel) {
         Category savedCategory = categoryRepository.findById(categoryModel.getId())
-                .orElseThrow(() -> new RuntimeException("Category Not Exist"));
+                .orElseThrow(() -> new CategoryNotFoundException("Category with ID " + categoryModel.getId() + " not found"));
 
         categoryMapper.updateModelToSavedEntity(categoryModel, savedCategory);
         return categoryMapper.mapEntityToModel(savedCategory);
@@ -46,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(long id) {
         categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category Not Exist"));
+                .orElseThrow(() -> new CategoryNotFoundException("Category with ID " + id + " not found"));
         categoryRepository.deleteById(id);
     }
 
