@@ -26,9 +26,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public List<ProductModel> getProducts() {
-        List<Product> products = productRepository.findAll();
-        return productMapper.mapEntitiesToModels(products);
+    public Page<ProductModel> getProducts(Pageable pageable) {
+        return productRepository.findAll(pageable)
+                .map(productMapper::mapEntityToModel);
     }
 
     @Override
@@ -85,5 +85,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean checkProductExists(Long productId) {
         return productRepository.existsById(productId);
+    }
+
+    @Override
+    public List<ProductModel> searchProducts(String name, String category, String code) {
+        return productRepository.searchProducts(name, category, code)
+                .stream()
+                .map(productMapper::mapEntityToModel)
+                .toList();
     }
 }

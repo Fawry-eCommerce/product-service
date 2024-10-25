@@ -5,6 +5,9 @@ import com.fawry.productservice.model.CategoryModel;
 import java.util.List;
 
 public interface CategoryService {
+
+     CategoryModel getCategoryById(Long categoryId);
+
      List<CategoryModel> getCategories();
 
      void addCategory(CategoryModel categoryModel);

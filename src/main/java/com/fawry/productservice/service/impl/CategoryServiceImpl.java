@@ -19,6 +19,18 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
+    private Category getCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(
+                        () -> new CategoryNotFoundException("Category with " + categoryId + " not found")
+                );
+    }
+
+    @Override
+    public CategoryModel getCategoryById(Long categoryId) {
+        return categoryMapper.mapEntityToModel(getCategory(categoryId));
+    }
+
     @Override
     public List<CategoryModel> getCategories() {
         List<Category> categories = categoryRepository.findAll();
@@ -34,20 +46,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryModel updateCategory(CategoryModel categoryModel) {
-        Category savedCategory = categoryRepository.findById(categoryModel.getId())
-                .orElseThrow(
-                        () -> new CategoryNotFoundException("Category with ID " + categoryModel.getId() + " not found")
-                );
+        Category savedCategory = getCategory(categoryModel.getId());
         categoryMapper.updateModelToSavedEntity(categoryModel, savedCategory);
         return categoryMapper.mapEntityToModel(savedCategory);
     }
 
     @Override
     public void deleteCategory(Long id) {
-        categoryRepository.findById(id).orElseThrow(
-                () -> new CategoryNotFoundException("Category with ID " + id + " not found")
-        );
-        categoryRepository.deleteById(id);
+        Category category = getCategory(id);
+        categoryRepository.delete(category);
     }
 
 }
