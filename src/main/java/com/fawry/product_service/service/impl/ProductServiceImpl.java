@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductModel> getProductsByIds(List<Long> ids, Pageable pageable) {
         List<Product> savedProducts = productRepository.findAllById(ids);
         if (savedProducts.isEmpty()) {
-            throw new ProductNotFoundException("No products found for the provided IDs: " + ids);
+            new PageImpl<>(new ArrayList<>());
         }
         return new PageImpl<>(productMapper.mapEntitiesToModels(savedProducts));
     }
