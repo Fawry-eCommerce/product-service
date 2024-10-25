@@ -47,4 +47,9 @@ public class ProductResource {
     public void deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
     }
+
+    @GetMapping("/check-product/{productId}")
+    public boolean checkProduct(@PathVariable long productId) {
+        return productService.checkProductExists(productId);
+    }
 }

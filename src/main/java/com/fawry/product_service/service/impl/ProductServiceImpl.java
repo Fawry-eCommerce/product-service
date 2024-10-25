@@ -82,4 +82,9 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
     }
 
+    @Override
+    public boolean checkProductExists(long productId) {
+        return productRepository.existsById(productId);
+
+    }
 }

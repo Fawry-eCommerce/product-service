@@ -3,6 +3,7 @@ package com.fawry.product_service.service;
 import com.fawry.product_service.model.ProductModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,4 +20,8 @@ public interface ProductService {
     ProductModel updateProduct(ProductModel productModel);
 
     void deleteProduct(long id);
+
+    boolean checkProductExists(@RequestParam("productId") long productId);
+
+
 }
