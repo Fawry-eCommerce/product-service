@@ -19,7 +19,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
-    private Category getCategory(Long categoryId) {
+    @Override
+    public Category getCategory(Long categoryId) {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(
                         () -> new CategoryNotFoundException("Category with " + categoryId + " not found")
