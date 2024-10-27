@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<ProductModel> getProducts();
+    Page<ProductModel> getProducts(Pageable pageable);
 
     Page<ProductModel> getProductsByIds(List<Long> ids, Pageable pageable);
 
@@ -22,6 +22,8 @@ public interface ProductService {
     void deleteProduct(Long id);
 
     boolean checkProductExists(@RequestParam("productId") Long productId);
+
+    List<ProductModel> searchProducts(String name, String category, String code);
 
 
 }
