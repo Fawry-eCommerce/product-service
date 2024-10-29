@@ -40,6 +40,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void addCategory(CategoryModel categoryModel) {
+        if (categoryRepository.existsByNameOrCode(categoryModel.getName(), categoryModel.getCode())) {
+            throw new IllegalArgumentException("Category with name or code already exists");
+        }
         Category category = categoryMapper.mapModelToEntity(categoryModel);
         categoryRepository.save(category);
     }
