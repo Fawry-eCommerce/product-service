@@ -15,7 +15,7 @@ public class Product {
     private String sku;
     private String code;
     private double price;
-    private String imageURL;
+    private String imageUrl;
     private String description;
     @ManyToOne
     private Category category;

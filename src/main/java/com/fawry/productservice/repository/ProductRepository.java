@@ -16,4 +16,5 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             "(:category is null or :category='' or p.category.name like %:category%) and " +
             "(:code is null or p.code like %:code%)")
     List<Product> searchProducts(String name, String category, String code);
+
 }
